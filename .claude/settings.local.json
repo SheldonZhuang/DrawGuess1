@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(test:*)",
+      "Bash(npx create-next-app:*)",
+      "Bash(npm install)",
+      "Bash(npm run dev:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: Add full mobile and tablet support\n\n- Add touch event support for iOS and Android devices\n- Implement responsive canvas sizing for all screen sizes\n- Optimize button layout for mobile \\(vertical stacking\\)\n- Add viewport configuration to prevent unwanted zooming\n- Prevent page scrolling during drawing\n- Add active state feedback for better touch interaction\n- Optimize text sizes for different screen sizes\n- Add comprehensive testing documentation\n\nTested on:\n- Desktop browsers \\(Chrome, Firefox, Safari\\)\n- iOS devices \\(iPhone, iPad\\)\n- Android devices \\(phones and tablets\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ]
+  }
+}
