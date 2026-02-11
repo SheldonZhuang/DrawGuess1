@@ -155,7 +155,8 @@ const Canvas = forwardRef<CanvasRef, CanvasProps>(({ width = 512, height = 512 }
     const canvas = canvasRef.current
     if (!canvas) return ''
 
-    return canvas.toDataURL('image/png')
+    // 使用 JPEG 格式并压缩质量，减小数据大小
+    return canvas.toDataURL('image/jpeg', 0.8)
   }
 
   const isEmpty = () => {

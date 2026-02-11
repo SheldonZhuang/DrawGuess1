@@ -12,14 +12,17 @@ export async function POST(request: NextRequest) {
     }
 
     const apiKey = process.env.SILICONFLOW_API_KEY
-    const apiUrl = process.env.SILICONFLOW_API_URL
+    const apiUrl = process.env.SILICONFLOW_API_URL || 'https://api.siliconflow.cn/v1/chat/completions'
 
-    if (!apiKey || !apiUrl) {
+    if (!apiKey) {
+      console.error('环境变量缺失: SILICONFLOW_API_KEY')
       return NextResponse.json(
-        { error: 'API 配置错误' },
+        { error: 'API 配置错误：请在 Vercel 设置中添加 SILICONFLOW_API_KEY 环境变量' },
         { status: 500 }
       )
     }
+
+    console.log('开始调用 API...', { apiUrl })
 
     // 调用硅基流动 API
     const response = await fetch(apiUrl, {
@@ -52,23 +55,27 @@ export async function POST(request: NextRequest) {
       }),
     })
 
+    console.log('API 响应状态:', response.status)
+
     if (!response.ok) {
       const errorText = await response.text()
-      console.error('API 错误:', errorText)
+      console.error('API 错误详情:', errorText)
       return NextResponse.json(
-        { error: `API 调用失败: ${response.status}` },
+        { error: `API 调用失败 (${response.status}): ${errorText.substring(0, 200)}` },
         { status: response.status }
       )
     }
 
     const data = await response.json()
+    console.log('API 响应成功')
     const guess = data.choices?.[0]?.message?.content || '无法识别'
 
     return NextResponse.json({ guess })
   } catch (error) {
-    console.error('处理请求时出错:', error)
+    const errorMessage = error instanceof Error ? error.message : '未知错误'
+    console.error('处理请求时出错:', errorMessage, error)
     return NextResponse.json(
-      { error: '服务器内部错误' },
+      { error: `服务器错误: ${errorMessage}` },
       { status: 500 }
     )
   }
